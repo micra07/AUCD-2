@@ -5,6 +5,7 @@
 #include <random>
 #include <ctime>
 
+
 template <typename T>
 struct Node {
     T data;
@@ -14,6 +15,7 @@ struct Node {
     Node() : next(nullptr), prev(nullptr) {}
 };
 
+
 template <typename T>
 class LinkedList {
 public:
@@ -22,7 +24,7 @@ public:
     LinkedList(int size);
     ~LinkedList();
 
- LinkedList& operator=(const LinkedList& other);
+    LinkedList& operator=(const LinkedList& other);
 
     void push_tail(const T& value);
     void push_tail(const LinkedList& otherList);
@@ -40,6 +42,7 @@ private:
     Node<T>* tail;
 };
 
+
 template <typename T>
 LinkedList<T>::LinkedList(const LinkedList& other) : head(nullptr), tail(nullptr) {
     Node<T>* temp = other.head;
@@ -48,6 +51,7 @@ LinkedList<T>::LinkedList(const LinkedList& other) : head(nullptr), tail(nullptr
         temp = temp->next;
     }
 }
+
 
 template <typename T>
 LinkedList<T>::LinkedList(int size) : head(nullptr), tail(nullptr) {
@@ -204,4 +208,33 @@ const T& LinkedList<T>::operator[](int index) const {
         temp = temp->next;
     }
     return temp->data;
+}
+
+struct Student {
+    std::string lastName;
+    std::string firstName;
+    int course;
+    double averageGrade;
+};
+
+int main() {
+    LinkedList<Student> students;
+    students.push_tail({ "Smith", "John", 3, 4.5 });
+    students.push_tail({ "Johnson", "Emma", 2, 4.3 });
+    students.push_tail({ "Williams", "Michael", 4, 4.8 });
+    students.push_tail({ "Brown", "Olivia", 1, 4.1 });
+
+    LinkedList<Student> seniorStudents;
+    LinkedList<Student> juniorStudents;
+
+    for (int i = 0; i < 4; i++) {
+        if (students[i].course > 2) {
+            seniorStudents.push_tail(students[i]);
+        }
+        else {
+            juniorStudents.push_tail(students[i]);
+        }
+    }
+
+    return 0;
 }
