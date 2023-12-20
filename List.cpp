@@ -184,30 +184,57 @@ void LinkedList<T>::pop_tail() {
     }
 }
 
+//template<typename T>
+//void LinkedList<T>::delete_node(const T& value) {
+//    Node* current = head;
+//    while (current != nullptr) {
+//        Node* temp = current;
+//        current = current->next;
+//        if (temp->data == value) {
+//            if (temp == head) {
+//                head = temp->next;
+//                if (head != nullptr) {
+//                    head->prev = nullptr;
+//                }
+//            }
+//            if (temp == tail) {
+//                tail = temp->prev;
+//                if (tail != nullptr) {
+//                    tail->next = nullptr;
+//                }
+//            }
+//            if (temp->prev != nullptr) {
+//                temp->prev->next = temp->next;
+//            }
+//            if (temp->next != nullptr) {
+//                temp->next->prev = temp->prev;
+//            }
+//            delete temp;
+//            size--;
+//        }
+//    }
+//}
 template<typename T>
 void LinkedList<T>::delete_node(const T& value) {
     Node* current = head;
     while (current != nullptr) {
         Node* temp = current;
-        if (current->data == value) {
-            if (current->prev != nullptr) {
-                current->prev->next = current->next;
+        current = current->next;
+        if (temp->data == value) {
+            if (temp->prev != nullptr) {
+                temp->prev->next = temp->next;
             }
             else {
-                head = current->next;
+                head = temp->next;
             }
-            if (current->next != nullptr) {
-                current->next->prev = current->prev;
+            if (temp->next != nullptr) {
+                temp->next->prev = temp->prev;
             }
             else {
-                tail = current->prev;
+                tail = temp->prev;
             }
-            current = current->next;
             delete temp;
             size--;
-        }
-        else {
-            current = current->next;
         }
     }
 }
@@ -242,7 +269,20 @@ int main() {
 
     LinkedList<Student> students;
     LinkedList<Student> tests(4);
+    LinkedList<int> test;
+    students.pop_head();
 
+    test.push_tail(2);
+    test.push_tail(1);
+    test.push_tail(2);
+    test.push_tail(2);
+    test.push_tail(2);
+    test.push_tail(3);
+    test.push_tail(2);
+    test.delete_node(2);
+    for (size_t i = 0; i < test.get_size(); i++) {
+        std::cout << test[i] << " " << std::endl;
+    }
 
     students.push_tail({ "Ivanov", "Ivan", 3, 4.5 });
     students.push_tail({ "Romanov", "Nikolai", 1, 3.9 });
@@ -295,7 +335,7 @@ int main() {
             juniorStudents2.push_tail(students[i]);
         }
     }
-   
+
     juniorStudents2.pop_head();
     std::cout << "\nJunior for pop_head:\n";
     for (size_t i = 0; i < juniorStudents2.get_size(); i++) {
